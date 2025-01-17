@@ -1,0 +1,145 @@
+
+        import * as React from "react"
+        import * as ReactDOM from "react-dom/client"
+        import * as Framer from "framer"
+        
+
+        const routes = {augiA20Il: {elements: {ew36iOdRK: "work", GCSYCDh4x: "dashboard", lnQnFfm25: "03", NKwCPjX0M: "holdings", S48s0AycK: "benefits", SFgVd_lLc: "01", tmvydkLeT: "transactions", wz4WUDXJ0: "what", XJLFuTsIP: "wallet", yP3afGL_e: "02", z1iKI5fcO: "introduction", zeYk8g7Va: "scroll-section"}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/vVJb1suiIQau04fwFPiu/2601td5e75pZFjTw6831/augiA20Il.js")), path: "/"}, fcgX6gjhd: {elements: {}, page: Framer.lazy(() => import("https://framerusercontent.com/modules/dRYJU8GAQkAdaqtLeMoY/rV1WI77n3D3rtc1TDIjf/fcgX6gjhd.js")), path: "/chatbot"}}
+        const locales = [{code: "en-US", id: "default", name: "English", slug: ""}]
+        
+        
+
+        export async function getPageRoot({ routeId, pathVariables, localeId }) {
+            // We don't want the initial render to immediately have to suspend.
+            await routes[routeId].page.preload()
+
+            const content = React.createElement(
+                Framer.PageRoot,
+                {
+                    isWebsite: true,
+                    routeId,
+                    pathVariables,
+                    routes,
+                    collectionUtils: {},
+                    framerSiteId: "06841a7a266d5f97f973fa8403d171841eb7b960e5dc612fcd263cf1f9acae34",
+                    notFoundPage: Framer.lazy(() => import("__framer-not-found-page")),
+                    isReducedMotion: undefined,
+                    localeId,
+                    locales,
+                    preserveQueryParams: undefined,
+                    
+                    
+                }
+            )
+
+            const contentWithFeaturesContext = React.createElement(
+                Framer.LibraryFeaturesProvider,
+                {
+                    children: content,
+                    value: {codeBoundaries: false, enableAsyncURLUpdates: true, replaceNestedLinks: true, useGranularSuspense: true, wrapUpdatesInTransitions: false}
+                }
+            )
+
+            
+            const page = React.createElement(Framer.PageEffectsProvider, {
+                children: contentWithFeaturesContext,
+                value: {routes: {}}
+            })
+
+            return page
+        }
+
+        const isBrowser = typeof document !== "undefined"
+        if (isBrowser) {
+            window.__framer_importFromPackage = (packageAndFilename, exportIdentifier) => () => {
+                return React.createElement(Framer.ErrorPlaceholder, { error: 'Package component not supported: "' + exportIdentifier + '" in "' + packageAndFilename + '"' })
+            }
+
+            // A lot of libraries assume process.env.NODE_ENV is present in runtime/buildtime, so we are polyfilling it
+            window.process = {
+                ...window.process,
+                env: {
+                    ...(window.process ? window.process.env: undefined),
+                    NODE_ENV: "production"
+                }
+            }
+
+            window.__framer_events = window.__framer_events || []
+
+            // Fallback support for stack gaps
+            Framer.installFlexboxGapWorkaroundIfNeeded()
+
+            const container = document.getElementById("main")
+            // We know that #main is parsed before this script, so we don't need to wait for DOMContentLoaded or similar events.
+            if ("framerHydrateV2" in container.dataset) main(true, container)
+            else main(false, container)
+        }
+
+        function track() {
+            if (!isBrowser) return
+            window.__framer_events.push(arguments)
+        }
+
+        async function main(shouldHydrate, container) {
+            try {
+                let routeId, localeId, pathVariables, breakpoints
+                if (shouldHydrate) {
+                    const routeData = JSON.parse(container.dataset.framerHydrateV2)
+                    routeId = routeData.routeId
+                    localeId = routeData.localeId
+                    pathVariables = routeData.pathVariables
+                    breakpoints = routeData.breakpoints
+                } else {
+                    const routeData = Framer.inferInitialRouteFromPath(routes, decodeURIComponent(location.pathname), true, locales)
+                    routeId = routeData.routeId
+                    localeId = routeData.localeId
+                    pathVariables = routeData.pathVariables
+                }
+
+                const page = await getPageRoot({ routeId, localeId, pathVariables })
+
+                function handleError(error, errorInfo, recoverable = true) {
+                    if (error.caught || window.__framer_hadFatalError) return // we already logged it
+
+                    const componentStack = errorInfo?.componentStack
+                    console.warn("Recoverable error during hydration. Please check any custom code or code overrides to fix server/client mismatches:\n", error, componentStack)
+                    // we only want to collect 1%, because this can be quite noisy (floods the data pipeline)
+                    if (Math.random() > 0.01) return
+                    track(recoverable ? "published_site_load_recoverable_error" : "published_site_load_error", {
+                        message: String(error),
+                        componentStack, // componentStack is more useful
+                        stack: componentStack ? undefined : error instanceof Error && typeof error.stack === "string" ? error.stack : null,
+                    })
+                }
+
+                if (shouldHydrate) {
+                    
+
+                    Framer.withPerformanceMarks("framer-rewrite-breakpoints", () => {
+                        Framer.removeHiddenBreakpointLayersV2(breakpoints)
+                        window.__framer_onRewriteBreakpoints?.(breakpoints)
+                    })
+
+                    
+
+                    const startTransition = React.startTransition
+                    startTransition(() => {
+                        Framer.markHydrationStart()
+                        Framer.setInitialHydrationState()
+                        if (true) Framer.turnOffReactEventHandling()
+                        ReactDOM.hydrateRoot(container, page, { onRecoverableError: handleError })
+                    })
+                } else {
+                    
+                    ReactDOM.createRoot(container, { onRecoverableError: handleError }).render(page)
+                }
+            } catch (error) {
+                handleError(error, undefined, false)
+                throw error
+            }
+        }
+
+        
+
+        
+    

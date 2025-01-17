@@ -1,0 +1,7 @@
+import{jsx as _jsx}from"react/jsx-runtime";import{useEffect,useState}from"react";import{addPropertyControls,ControlType}from"framer";/**
+ * @framerDisableUnlink
+ * @framerSupportedLayoutWidth auto
+ * @framerSupportedLayoutHeight auto
+ */ export default function PageScrollProgressIndicator({barHeight,backgroundColor}){const[progress,setProgress]=useState(0);useEffect(()=>{const handleScroll=()=>{const scrollY=window.scrollY;const height=document.body.scrollHeight-window.innerHeight;const progress=scrollY/height;if(progress>1||progress<0){return;}setProgress(progress);};window.addEventListener("scroll",handleScroll);return()=>{window.removeEventListener("scroll",handleScroll);};});return /*#__PURE__*/ _jsx("div",{style:{position:"fixed",top:0,left:0,height:barHeight,width:progress*100+"%",backgroundColor}});};PageScrollProgressIndicator.displayName="Page Scroll Progress Indicator";addPropertyControls(PageScrollProgressIndicator,{barHeight:{title:"Bar Height",type:ControlType.Number,min:0,max:20,defaultValue:4},backgroundColor:{title:"Background Color",type:ControlType.Color,defaultValue:"blue"}});
+export const __FramerMetadata__ = {"exports":{"default":{"type":"reactComponent","name":"PageScrollProgressIndicator","slots":[],"annotations":{"framerSupportedLayoutHeight":"auto","framerDisableUnlink":"* @framerSupportedLayoutWidth auto","framerContractVersion":"1"}},"__FramerMetadata__":{"type":"variable"}}}
+//# sourceMappingURL=./C_ScrollProgressIndicator.map

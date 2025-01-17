@@ -1,0 +1,88 @@
+import{jsx as _jsx,jsxs as _jsxs,Fragment as _Fragment}from"react/jsx-runtime";import{useEffect,useState}from"react";import useMeasure from"react-use-measure";import{createStore}from"https://framer.com/m/framer/store.js@^1.0.0";const useStore=createStore({background:"#0099FF"});// ANIMATED BORDER
+const BORDER_RADIUS=0;const INSET=1;const X_MARGIN=80;export function withAnimatedBorderGradient(Component){return props=>{const[sizeRef,{width,height}]=useMeasure();const aspectRatio=width/height;const styles=`
+      @property --r2 {
+        syntax: '<angle>';
+        inherits: false;
+        initial-value: 0deg;
+      }
+
+      @property --x {
+        syntax: '<length>';
+        inherits: false;
+        initial-value: 0px;
+      }
+
+      .${props.className} .box {
+        background: conic-gradient(
+          from calc(var(--r2) - 80deg) at var(--x) ${height/2}px,
+          #222 0%,
+          #00FF84 20%,
+          #222 25%
+        );
+        animation: -0.64s rotating2 4s linear infinite,
+          -0.64s x 4s linear infinite;
+        width: 100%;
+        height: 100%; 
+        border-radius: ${BORDER_RADIUS+INSET}px;
+        position: relative;
+        z-index: 0;
+      }
+
+      .${props.className} .box::after {
+        content: '';
+        display: block;
+        position: absolute;
+        background: #0D0D0D;
+        inset: ${INSET}px;
+        border-radius: ${BORDER_RADIUS}px;
+        z-index: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      @keyframes x {
+        0% {
+          --x: ${X_MARGIN}px;
+        }
+  
+        ${aspectRatio/(aspectRatio+3.14)*.5*100}% {
+          --x: ${width-X_MARGIN}px;
+        }
+        50% {
+          --x: ${width-X_MARGIN}px;
+        }
+    
+        ${aspectRatio/(aspectRatio+3.14)*.5*100+50}% {
+          --x: ${X_MARGIN}px;
+        }
+        100% {
+    --x: ${X_MARGIN}px;
+        }
+      }
+
+      @keyframes rotating2 {
+        0% {
+          --r2: 0deg;
+        }
+        ${aspectRatio/(aspectRatio+3.14)*.5*100}% {
+          --r2: 0deg;
+        }
+        50% {
+          --r2: 180deg;
+        }
+        ${aspectRatio/(aspectRatio+3.14)*.5*100+50}% {
+          --r2: 180deg;
+        }
+        100% {
+          --r2: 360deg;
+        }
+      }
+    `;return /*#__PURE__*/_jsxs(_Fragment,{children:[/*#__PURE__*/_jsx("style",{children:styles}),/*#__PURE__*/_jsxs(Component,{...props,children:[/*#__PURE__*/_jsx("div",{className:"box",ref:sizeRef}),props.children]})]});};}// NAV HIDE ON SCROLL
+export function withHideOnScroll(Component){return props=>{const[scrollDirection,setScrollDirection]=useState(undefined);const[prevScrollPosition,setPrevScrollPosition]=useState(0);useEffect(()=>{const handleScroll=()=>{const scrollY=window.scrollY;const height=document.body.scrollHeight-window.innerHeight;const progress=scrollY/height;if(scrollY<0||progress>1){return;}if(window.scrollY>prevScrollPosition){setScrollDirection("down");}else{setScrollDirection("up");}setPrevScrollPosition(window.scrollY);};window.addEventListener("scroll",handleScroll,{passive:true});return()=>{window.removeEventListener("scroll",handleScroll);};});return /*#__PURE__*/_jsx(Component,{...props,style:{...props.style,transition:"transform 100ms ease-in-out",transform:scrollDirection==="down"?"translateY(-100%)":"translateY(0)"}});};}// TEXT HIGHTLIGHT
+const COLOR="#141414";const BACKGROUND_COLOR="#F3F901";const styles=`
+  .overrrides-custom-cursor::selection, .overrrides-custom-cursor *::selection {
+    color: ${COLOR} !important;
+    background: ${BACKGROUND_COLOR} !important;
+  }
+`;export function withCustomTextHighlight(Component){return props=>{return /*#__PURE__*/_jsxs(_Fragment,{children:[/*#__PURE__*/_jsx("style",{children:styles}),/*#__PURE__*/_jsx(Component,{...props,className:`overrrides-custom-cursor ${props.className}`})]});};}
+export const __FramerMetadata__ = {"exports":{"withCustomTextHighlight":{"type":"reactHoc","name":"withCustomTextHighlight","annotations":{"framerContractVersion":"1"}},"withAnimatedBorderGradient":{"type":"reactHoc","name":"withAnimatedBorderGradient","annotations":{"framerContractVersion":"1"}},"withHideOnScroll":{"type":"reactHoc","name":"withHideOnScroll","annotations":{"framerContractVersion":"1"}},"__FramerMetadata__":{"type":"variable"}}}
+//# sourceMappingURL=./FD.map
